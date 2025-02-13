@@ -3,6 +3,7 @@ import { adminGetProducts, adminDeleteProduct } from "../../connection/connectio
 import { alertError, alertDeleteConfirm } from "../../tools/sweetAlert";
 import TheLoader from "../../components/TheLoader";
 import AdminProductModal from "../../components/admin/AdminProductModal";
+import Pagination from "../../components/Pagination";
 import { Modal } from "bootstrap";
 
 export default function AdminProducts() {
@@ -25,10 +26,10 @@ export default function AdminProducts() {
   }
   
   // 取得商品
-  const getProducts = async () => {
+  const getProducts = async (page = 1) => {
     setIsLoading(true);
     try {
-      const res = await adminGetProducts();
+      const res = await adminGetProducts(page);
       setProducts(res.data.products);
       setPagination(res.data.pagination);
     } catch (error) {
@@ -126,34 +127,8 @@ export default function AdminProducts() {
             }
           </tbody>
         </table>   
-        <nav aria-label="Page navigation example">
-          <ul className="pagination">
-            <li className="page-item">
-              <a className="page-link disabled" href="/" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-              </a>
-            </li>
-            {
-            [...new Array(5)].map((_, i) => (
-                
-              <li className="page-item" key={`${i}_page`}>
-                <a
-                  className={`page-link ${(i + 1 === 1) && 'active'}`}
-                  href="/"
-                >
-                  {i + 1}
-                </a>
-
-              </li>
-            ))
-          }
-            <li className="page-item">
-              <a className="page-link" href="/" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <Pagination pagination={pagination}
+          changePage={getProducts}/>
       </div>
     </>
   )

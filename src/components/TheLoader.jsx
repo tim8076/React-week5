@@ -4,7 +4,8 @@ export default function TheLoader({ type, color, isLoading }) {
     isLoading && (
       <div className="position-fixed top-0 start-0 end-0 bottom-0 d-flex justify-content-center align-items-center"
         style={{
-          backgroundColor: 'rgba(0, 0, 0, 0.5)'
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          zIndex: 10000,
         }}>
         <ReactLoading type={type} color={color} height={150} width={60} />
       </div>
