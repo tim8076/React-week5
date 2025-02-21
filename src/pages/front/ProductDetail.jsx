@@ -11,7 +11,6 @@ export default function ProductDetail() {
     setIsLoading(true);
     try {
       const res = await getProduct(id);
-      console.log(res.data)
       setProduct(res.data.product);
     } catch(error) {
       alertError(error.response.data.message);

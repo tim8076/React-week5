@@ -60,7 +60,6 @@ export default function Cart() {
   }
 
   const modifyCartItem = async (cartId, productId, qty) => {
-    console.log()
     setIsLoading(true);
     try {
       await modifyCart(cartId, {
@@ -243,6 +242,10 @@ export default function Cart() {
                   minLength: {
                     value: 8,
                     message: '電話長度錯誤',
+                  },
+                  pattern: {
+                    value: /^\d+$/,
+                    message: '只能輸入數字',
                   },
                 })}
                 placeholder="請輸入電話" />
