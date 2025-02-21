@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { getToken } from "../../tools/tools";
 import { setAdminToken } from "../../connection/connection";
 import { adminCheckLogin } from "../../connection/connection";
-
+import Toast from "../../components/Toast";
 export default function Dashboard() {
   const navigate = useNavigate();
   // 登出
@@ -83,6 +83,7 @@ export default function Dashboard() {
           <Outlet />
         </div>
       </div>
+      <Toast />
     </>
   )
 }

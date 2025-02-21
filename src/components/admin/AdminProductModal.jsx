@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { adminAddProducts, adminModifyProduct } from "../../connection/connection";
 import { alertError } from "../../tools/sweetAlert";
 import { Value } from "sass";
+import { useDispatch } from "react-redux";
+import { pushMessage } from "../../slice/toastSlice";
 const defaultData = {
   title: "", //商品名稱
   category: "", //商品種類
@@ -16,6 +18,7 @@ const defaultData = {
 }
 export default function AdminProductModal({ closeProductModal, modalRef, getProducts, mode, tempProduct }) {
   const [tempData, setTempData] = useState(defaultData);
+  const dispatch = useDispatch();
   useEffect(() => {
     if (mode === 'create') {
       setTempData(defaultData);
@@ -49,17 +52,28 @@ export default function AdminProductModal({ closeProductModal, modalRef, getProd
       if (mode === 'create') {
         await adminAddProducts({
           data: tempData
-        })
+        });
+        dispatch(pushMessage({
+          text: '加入產品成功',
+          status: 'success',
+        }))
       } else if (mode === 'edit') {
         const { id } = tempData;
         await adminModifyProduct(id, {
           data: tempData,
         })
+        dispatch(pushMessage({
+          text: '編輯產品成功',
+          status: 'success',
+        }))
       }
       closeProductModal();
       getProducts();
     } catch (error) {
-      alertError(error.response.data.message);
+      dispatch(pushMessage({
+        text: error.response.data.message.join('、'),
+        status: 'fail',
+      }))
     }
   }
 
